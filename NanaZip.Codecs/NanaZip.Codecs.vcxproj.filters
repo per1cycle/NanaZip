@@ -467,6 +467,9 @@
     <Filter Include="FreeBSD">
       <UniqueIdentifier>{70c4b67c-1fa7-4430-a788-11ad86f1ac56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fat">
+      <UniqueIdentifier>{569f3639-2bff-4919-bebc-c5f24b560b31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BLAKE3\blake3.h">
@@ -1018,6 +1021,9 @@
     </ClInclude>
     <ClInclude Include="Zstandard\compress\zstd_preSplit.h">
       <Filter>Zstandard\compress</Filter>
+    </ClInclude>
+    <ClInclude Include="Fat.h">
+      <Filter>Fat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
