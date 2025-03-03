@@ -512,6 +512,9 @@
     <Filter Include="Lizard\entropy">
       <UniqueIdentifier>{114a5a2f-28cd-4e17-9570-ecf119db33d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fat">
+      <UniqueIdentifier>{16d01bd9-6580-4186-ba5c-d888fc1b797a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BLAKE3\blake3.h">
@@ -1105,6 +1108,9 @@
     </ClInclude>
     <ClInclude Include="Lizard\entropy\hist.h">
       <Filter>Lizard\entropy</Filter>
+    </ClInclude>
+    <ClInclude Include="Fat.h">
+      <Filter>Fat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -275,6 +275,7 @@
     <ClCompile Include="NanaZip.Codecs.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Fat.h" />
     <ClInclude Include="FreeBSD\dinode.h" />
     <ClInclude Include="FreeBSD\dir.h" />
     <ClInclude Include="FreeBSD\fs.h" />
