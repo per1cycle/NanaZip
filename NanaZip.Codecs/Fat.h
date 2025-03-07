@@ -790,10 +790,7 @@ typedef LFN_DIRENT* PLFN_DIRENT;
 // https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification
 //
 
-/**
- * @brief
- *
- */
+// 
 typedef struct _EXFAT_BOOT_SECTOR {
     UCHAR JumpBoot[3];
     UCHAR FileSystemName[8];
@@ -830,7 +827,20 @@ typedef struct _EXFAT_FLASH_PARAMETERS {
     UCHAR WriteCycle[4];
     UCHAR Reserved[4];
 };
+//
+// Exfat directory entry structure.
+//
+ 
+typedef struct _EXFAT_DIRENT {
+	
+};
 
+typedef struct _EXFAT_LABEL {
+	UCHAR EntryType[1];
+	UCHAR CharacterCount[1];
+	UCHAR VolumeLabel[22];
+
+};
 // File Allocation Table Region
 
 #endif // _FAT_
