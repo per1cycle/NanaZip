@@ -823,34 +823,33 @@ typedef struct _EXFAT_BOOT_SECTOR {
     UCHAR JumpBoot[3];								// offset = 0x000  3
     UCHAR FileSystemName[8];						// offset = 0x003  8
     UCHAR MustBeZero[53];							// offset = 0x00B  53
-    UCHAR PartitionOffset[8];						// offset = 0x000  8
-    UCHAR VolumeLength[8];							// offset = 0x000  8
-    UCHAR FatOffset[4];								// offset = 0x000  4
-    UCHAR FatLength[4];								// offset = 0x000  4
-    UCHAR ClusterHeapOffset[4];						// offset = 0x000  4
-    UCHAR ClusterCount[4];							// offset = 0x000  4
-    UCHAR FirstClusterOfRootDirectory[4];			// offset = 0x000  4
-    UCHAR VolumeSerialNumber[4];					// offset = 0x000  4
-    UCHAR FileSystemRevision[2];
-    UCHAR VolumeFlags[2];
-    UCHAR BytesPerSectorShift[1];
-    UCHAR SectorsPerClusterShift[1];
-    UCHAR NumberOfFats[1];
-    UCHAR DriveSelect[1];
-    UCHAR PercentInUse[1];
-    UCHAR Reserved[7];
-    UCHAR BootCode[390];
-    UCHAR BootSignature[2];
-
+    UCHAR PartitionOffset[8];						// offset = 0x05E  8
+    UCHAR VolumeLength[8];							// offset = 0x066  8
+    UCHAR FatOffset[4];								// offset = 0x06E  4
+    UCHAR FatLength[4];								// offset = 0x072  4
+    UCHAR ClusterHeapOffset[4];						// offset = 0x076  4
+    UCHAR ClusterCount[4];							// offset = 0x07A  4
+    UCHAR FirstClusterOfRootDirectory[4];			// offset = 0x07E  4
+    UCHAR VolumeSerialNumber[4];					// offset = 0x082  4
+    UCHAR FileSystemRevision[2];					// offset = 0x086  2
+    UCHAR VolumeFlags[2];							// offset = 0x088  2
+    UCHAR BytesPerSectorShift[1];					// offset = 0x09A  1
+    UCHAR SectorsPerClusterShift[1];				// offset = 0x09B  1
+    UCHAR NumberOfFats[1];							// offset = 0x09C  1
+    UCHAR DriveSelect[1];							// offset = 0x09D  1
+    UCHAR PercentInUse[1];							// offset = 0x09E  1
+    UCHAR Reserved[7];								// offset = 0x09F  7
+    UCHAR BootCode[390];							// offset = 0x0A6  390
+    UCHAR BootSignature[2];							// offset = 0x436  2
 } EXFAT_BOOT_SECTOR;
 
 //
 // Exfat directory entry structure.
 //
 typedef struct _EXFAT_DIRECTORY_ENTRY {
-	UCHAR EntryType[1];
+	UCHAR EntryType[1];								// offset = 0x000  1
 	union {
-		UCHAR CustomDefined[19];
+		UCHAR CustomDefined[19];	
 		struct EXFAT_PRIMARY_DIRECTORY_ENTRY {
 			UCHAR SecondaryCount[1];
 			UCHAR SetChecksum[2];
@@ -862,18 +861,17 @@ typedef struct _EXFAT_DIRECTORY_ENTRY {
 			UCHAR CustomDefined[18];
 		} ExfatSecondaryTemplate;
 	} DirectoryEntry;
-	UCHAR FirstCluster[4];
-	UCHAR DataLength[8];
-
+	UCHAR FirstCluster[4];							// offset = 0x000
+	UCHAR DataLength[8];							//
 } EXFAT_DIRECTORY_ENTRY;
 
 // 
 // Exfat directory entry labal.
 //
 typedef struct _EXFAT_DIRECTORY_ENTRY_LABEL {
-	UCHAR EntryType[1];
-	UCHAR CharacterCount[1];
-	UCHAR VolumeLabel[22];
-	UCHAR Reserved[8];
+	UCHAR EntryType[1];								//
+	UCHAR CharacterCount[1];						//
+	UCHAR VolumeLabel[22];							//
+	UCHAR Reserved[8];								//
 } EXFAT_DIRECTORY_ENTRY_LABEL ;
 
