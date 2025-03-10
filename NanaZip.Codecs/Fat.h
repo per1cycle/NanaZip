@@ -12,9 +12,6 @@ Abstract:
 
 
 --*/
-#ifndef _FAT_
-#define _FAT_
-
 #include <Windows.h>
 
 //
@@ -39,6 +36,34 @@ typedef LBO* PLBO;
 typedef ULONG32 VBO;
 typedef VBO* PVBO;
 
+
+//
+//  This macro copies an unaligned src byte to an aligned dst byte
+//
+
+#define CopyUchar1(Dst,Src) {                               \
+    *((UCHAR1 *)(Dst)) = *((UNALIGNED UCHAR1 *)(Src));      \
+    }
+
+//
+//  This macro copies an unaligned src word to an aligned dst word
+//
+
+#define CopyUchar2(Dst,Src) {                               \
+    *((UCHAR2 *)(Dst)) = *((UNALIGNED UCHAR2 *)(Src));      \
+    }
+
+//
+//  This macro copies an unaligned src longword to an aligned dsr longword
+//
+
+#define CopyUchar4(Dst,Src) {                               \
+    *((UCHAR4 *)(Dst)) = *((UNALIGNED UCHAR4 *)(Src));      \
+    }
+
+#define CopyU4char(Dst,Src) {                               \
+    *((UNALIGNED UCHAR4 *)(Dst)) = *((UCHAR4 *)(Src));      \
+    }
 
 //
 //  The boot sector is the first physical sector (LBN == 0) on the volume.
@@ -790,19 +815,22 @@ typedef LFN_DIRENT* PLFN_DIRENT;
 // https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification
 //
 
+
 // 
+// Exfat boot sector part.
+//
 typedef struct _EXFAT_BOOT_SECTOR {
-    UCHAR JumpBoot[3];
-    UCHAR FileSystemName[8];
-    UCHAR MustBeZero[53];
-    UCHAR PartitionOffset[8];
-    UCHAR VolumeLength[8];
-    UCHAR FatOffset[4];
-    UCHAR FatLength[4];
-    UCHAR ClusterHeapOffset[4];
-    UCHAR ClusterCount[4];
-    UCHAR FirstClusterOfRootDirectory[4];
-    UCHAR VolumeSerialNumber[4];
+    UCHAR JumpBoot[3];								// offset = 0x000  3
+    UCHAR FileSystemName[8];						// offset = 0x003  8
+    UCHAR MustBeZero[53];							// offset = 0x00B  53
+    UCHAR PartitionOffset[8];						// offset = 0x000  8
+    UCHAR VolumeLength[8];							// offset = 0x000  8
+    UCHAR FatOffset[4];								// offset = 0x000  4
+    UCHAR FatLength[4];								// offset = 0x000  4
+    UCHAR ClusterHeapOffset[4];						// offset = 0x000  4
+    UCHAR ClusterCount[4];							// offset = 0x000  4
+    UCHAR FirstClusterOfRootDirectory[4];			// offset = 0x000  4
+    UCHAR VolumeSerialNumber[4];					// offset = 0x000  4
     UCHAR FileSystemRevision[2];
     UCHAR VolumeFlags[2];
     UCHAR BytesPerSectorShift[1];
@@ -816,31 +844,36 @@ typedef struct _EXFAT_BOOT_SECTOR {
 
 } EXFAT_BOOT_SECTOR;
 
-typedef struct _EXFAT_FLASH_PARAMETERS {
-    UCHAR ParametersGuid[16];
-    UCHAR EraseBlockSize[4];
-    UCHAR PageSize[4];
-    UCHAR SpareSectors[4];
-    UCHAR RandomAccessTime[4];
-    UCHAR ProgrammingTime[4];
-    UCHAR ReadCycle[4];
-    UCHAR WriteCycle[4];
-    UCHAR Reserved[4];
-};
 //
 // Exfat directory entry structure.
 //
- 
-typedef struct _EXFAT_DIRENT {
-	
-};
+typedef struct _EXFAT_DIRECTORY_ENTRY {
+	UCHAR EntryType[1];
+	union {
+		UCHAR CustomDefined[19];
+		struct EXFAT_PRIMARY_DIRECTORY_ENTRY {
+			UCHAR SecondaryCount[1];
+			UCHAR SetChecksum[2];
+			UCHAR GeneralPrimaryFlags[2];
+			UCHAR CustomDefined[14];
+		} ExfatPrimaryTemplate;
+		struct EXFAT_SECONDARY_DIRECTORY_ENTRY {
+			UCHAR GeneralSecondaryFlags[1];
+			UCHAR CustomDefined[18];
+		} ExfatSecondaryTemplate;
+	} DirectoryEntry;
+	UCHAR FirstCluster[4];
+	UCHAR DataLength[8];
 
-typedef struct _EXFAT_LABEL {
+} EXFAT_DIRECTORY_ENTRY;
+
+// 
+// Exfat directory entry labal.
+//
+typedef struct _EXFAT_DIRECTORY_ENTRY_LABEL {
 	UCHAR EntryType[1];
 	UCHAR CharacterCount[1];
 	UCHAR VolumeLabel[22];
+	UCHAR Reserved[8];
+} EXFAT_DIRECTORY_ENTRY_LABEL ;
 
-};
-// File Allocation Table Region
-
-#endif // _FAT_
