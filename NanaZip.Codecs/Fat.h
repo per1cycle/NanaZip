@@ -815,6 +815,12 @@ typedef LFN_DIRENT* PLFN_DIRENT;
 // https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification
 //
 
+#define EXFAT_MAIN_BOOT_SECTOR 0
+#define EXFAT_BACKUP_BOOT_REGION_SECTOR 12
+
+#define EXFAT_FIRST_CLUSTER 2
+#define EXFAT_BAD_BLOCK 0xFFFFFFF7u
+#define EXFAT_END_CLUSTER 0xFFFFFFFFFu
 
 // 
 // Exfat boot sector part.
@@ -849,7 +855,7 @@ typedef struct _EXFAT_BOOT_SECTOR {
 typedef struct _EXFAT_DIRECTORY_ENTRY {
 	UCHAR EntryType[1];								// offset = 0x000  1
 	union {
-		UCHAR CustomDefined[19];	
+		UCHAR CustomDefined[19];					// offset = 0x001  19	
 		struct EXFAT_PRIMARY_DIRECTORY_ENTRY {
 			UCHAR SecondaryCount[1];
 			UCHAR SetChecksum[2];
@@ -861,17 +867,17 @@ typedef struct _EXFAT_DIRECTORY_ENTRY {
 			UCHAR CustomDefined[18];
 		} ExfatSecondaryTemplate;
 	} DirectoryEntry;
-	UCHAR FirstCluster[4];							// offset = 0x000
-	UCHAR DataLength[8];							//
+	UCHAR FirstCluster[4];							// offset = 0x014  4
+	UCHAR DataLength[8];							// offset = 0x018  8
 } EXFAT_DIRECTORY_ENTRY;
 
 // 
 // Exfat directory entry labal.
 //
 typedef struct _EXFAT_DIRECTORY_ENTRY_LABEL {
-	UCHAR EntryType[1];								//
-	UCHAR CharacterCount[1];						//
-	UCHAR VolumeLabel[22];							//
-	UCHAR Reserved[8];								//
+	UCHAR EntryType[1];								// offset = 0x000  1
+	UCHAR CharacterCount[1];						// offset = 0x001  1
+	UCHAR VolumeLabel[22];							// offset = 0x002  22
+	UCHAR Reserved[8];								// offset = 0x018  8
 } EXFAT_DIRECTORY_ENTRY_LABEL ;
 
