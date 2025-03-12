@@ -1,33 +1,33 @@
 ﻿/*++
+ *
+ * Copyright (c) 1989-2000 Microsoft Corporation
+ * 
+ * Module Name:
+ * Mile.Codecs/Fat.h
+ *
+ * Maintainer: pericycle <pericycle.cc@gmail.com>
+ *
+ * Abstract:
+ *
+ * This module defines the on-disk structure of the Fat file system.
+ */
 
-Copyright (c) 1989-2000 Microsoft Corporation
-
-Module Name:
-
-    Fat.h
-
-Abstract:
-
-    This module defines the on-disk structure of the Fat file system.
-
-
---*/
 #include <Windows.h>
 
-//
-//  The following nomenclature is used to describe the Fat on-disk
-//  structure:
-//
-//      LBN - is the number of a sector relative to the start of the disk.
-//
-//      VBN - is the number of a sector relative to the start of a file,
-//          directory, or allocation.
-//
-//      LBO - is a byte offset relative to the start of the disk.
-//
-//      VBO - is a byte offset relative to the start of a file, directory
-//          or allocation.
-//
+/* 
+ * The following nomenclature is used to describe the Fat on-disk
+ * structure:
+ * 
+ *     LBN - is the number of a sector relative to the start of the disk.
+ * 
+ *     VBN - is the number of a sector relative to the start of a file,
+ *         directory, or allocation.
+ * 
+ *     LBO - is a byte offset relative to the start of the disk.
+ * 
+ *     VBO - is a byte offset relative to the start of a file, directory
+ *         or allocation.
+ */
 
 typedef LONGLONG LBO;    /* for Fat32, LBO is >32 bits */
 
@@ -37,25 +37,25 @@ typedef ULONG32 VBO;
 typedef VBO* PVBO;
 
 
-//
-//  This macro copies an unaligned src byte to an aligned dst byte
-//
+/* 
+ * This macro copies an unaligned src byte to an aligned dst byte
+ */
 
 #define CopyUchar1(Dst,Src) {                               \
     *((UCHAR1 *)(Dst)) = *((UNALIGNED UCHAR1 *)(Src));      \
     }
 
-//
-//  This macro copies an unaligned src word to an aligned dst word
-//
+/* 
+ * This macro copies an unaligned src word to an aligned dst word
+ */
 
 #define CopyUchar2(Dst,Src) {                               \
     *((UCHAR2 *)(Dst)) = *((UNALIGNED UCHAR2 *)(Src));      \
     }
 
-//
-//  This macro copies an unaligned src longword to an aligned dsr longword
-//
+/* 
+ * This macro copies an unaligned src longword to an aligned dsr longword
+ */
 
 #define CopyUchar4(Dst,Src) {                               \
     *((UCHAR4 *)(Dst)) = *((UNALIGNED UCHAR4 *)(Src));      \
@@ -65,18 +65,18 @@ typedef VBO* PVBO;
     *((UNALIGNED UCHAR4 *)(Dst)) = *((UCHAR4 *)(Src));      \
     }
 
-//
-//  The boot sector is the first physical sector (LBN == 0) on the volume.
-//  Part of the sector contains a BIOS Parameter Block.  The BIOS in the
-//  sector is packed (i.e., unaligned) so we'll supply a unpacking macro
-//  to translate a packed BIOS into its unpacked equivalent.  The unpacked
-//  BIOS structure is already defined in ntioapi.h so we only need to define
-//  the packed BIOS.
-//
+/* 
+ * The boot sector is the first physical sector (LBN == 0) on the volume.
+ * Part of the sector contains a BIOS Parameter Block.  The BIOS in the
+ * sector is packed (i.e., unaligned) so we'll supply a unpacking macro
+ * to translate a packed BIOS into its unpacked equivalent.  The unpacked
+ * BIOS structure is already defined in ntioapi.h so we only need to define
+ * the packed BIOS.
+ */
 
-//
-//  Define the Packed and Unpacked BIOS Parameter Block
-//
+/* 
+ * Define the Packed and Unpacked BIOS Parameter Block
+ */
 
 typedef struct _PACKED_BIOS_PARAMETER_BLOCK {
     UCHAR  BytesPerSector[2];                       // offset = 0x000  0
@@ -118,11 +118,11 @@ typedef struct _PACKED_BIOS_PARAMETER_BLOCK_EX {
 
 typedef PACKED_BIOS_PARAMETER_BLOCK_EX* PPACKED_BIOS_PARAMETER_BLOCK_EX;
 
-//
-//  The IsBpbFat32 macro is defined to work with both packed and unpacked
-//  BPB structures.  Since we are only checking for zero, the byte order
-//  does not matter.
-//
+/* 
+ * The IsBpbFat32 macro is defined to work with both packed and unpacked
+ * BPB structures.  Since we are only checking for zero, the byte order
+ * does not matter.
+ */ 
 
 #define IsBpbFat32(bpb) (*(USHORT *)(&(bpb)->SectorsPerFat) == 0)
 
@@ -155,9 +155,9 @@ typedef struct BIOS_PARAMETER_BLOCK {
     USHORT BackupBootSector;
 } BIOS_PARAMETER_BLOCK, * PBIOS_PARAMETER_BLOCK;
 
-//
-//  This macro takes a Packed BIOS and fills in its Unpacked equivalent
-//
+/* 
+ * This macro takes a Packed BIOS and fills in its Unpacked equivalent
+ */
 
 #define FatUnpackBios(Bios,Pbios) {                                         \
     CopyUchar2(&(Bios)->BytesPerSector,    &(Pbios)->BytesPerSector[0]   ); \
@@ -181,9 +181,9 @@ typedef struct BIOS_PARAMETER_BLOCK {
     CopyUchar2(&(Bios)->BackupBootSector,  &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->BackupBootSector[0]    ); \
 }
 
-//
-//  Define the boot sector
-//
+/* 
+ * Define the boot sector
+ */
 
 typedef struct _PACKED_BOOT_SECTOR {
     UCHAR Jump[3];                                  // offset = 0x000   0
@@ -213,9 +213,9 @@ typedef struct _PACKED_BOOT_SECTOR_EX {
 
 typedef PACKED_BOOT_SECTOR_EX* PPACKED_BOOT_SECTOR_EX;
 
-//
-//  Define the FAT32 FsInfo sector.
-//
+/*
+ * Define the FAT32 FsInfo sector.
+ */
 
 typedef struct _FSINFO_SECTOR {
     ULONG SectorBeginSignature;                     // offset = 0x000   0
@@ -232,41 +232,41 @@ typedef struct _FSINFO_SECTOR {
 
 #define FSINFO_SIGNATURE                0x61417272
 
-//
-//  We use the CurrentHead field for our dirty partition info.
-//
+/*
+ * We use the CurrentHead field for our dirty partition info.
+ */
 
 #define FAT_BOOT_SECTOR_DIRTY            0x01
 #define FAT_BOOT_SECTOR_TEST_SURFACE     0x02
 
-//
-//  Define a Fat Entry type.
-//
-//  This type is used when representing a fat table entry.  It also used
-//  to be used when dealing with a fat table index and a count of entries,
-//  but the ensuing type casting nightmare sealed this fate.  These other
-//  two types are represented as ULONGs.
-//
+/*
+ * Define a Fat Entry type.
+ *
+ * This type is used when representing a fat table entry.  It also used
+ * to be used when dealing with a fat table index and a count of entries,
+ * but the ensuing type casting nightmare sealed this fate.  These other
+ * two types are represented as ULONGs.
+ */
 
 typedef ULONG32 FAT_ENTRY;
 
 #define FAT32_ENTRY_MASK 0x0FFFFFFFUL
 
-//
-//  We use these special index values to set the dirty info for
-//  DOS/Win9x compatibility.
-//
+/*
+ * We use these special index values to set the dirty info for
+ * DOS/Win9x compatibility.
+ */
 
 #define FAT_CLEAN_VOLUME        (~FAT32_ENTRY_MASK | 0)
 #define FAT_DIRTY_VOLUME        (~FAT32_ENTRY_MASK | 1)
 
 #define FAT_DIRTY_BIT_INDEX     1
 
-//
-//  Physically, the entry is fully set if clean, and the high
-//  bit knocked out if it is dirty (i.e., it is really a clean
-//  bit).  This means it is different per-FAT size.
-//
+/* 
+ * Physically, the entry is fully set if clean, and the high
+ * bit knocked out if it is dirty (i.e., it is really a clean
+ * bit).  This means it is different per-FAT size.
+ */
 
 #define FAT_CLEAN_ENTRY         (~0)
 
@@ -274,19 +274,19 @@ typedef ULONG32 FAT_ENTRY;
 #define FAT16_DIRTY_ENTRY       0x7fff
 #define FAT32_DIRTY_ENTRY       0x7fffffff
 
-//
-//  The following constants the are the valid Fat index values.
-//
+/* 
+ * The following constants the are the valid Fat index values.
+ */
 
 #define FAT_CLUSTER_AVAILABLE            (FAT_ENTRY)0x00000000
 #define FAT_CLUSTER_RESERVED             (FAT_ENTRY)0x0ffffff0
 #define FAT_CLUSTER_BAD                  (FAT_ENTRY)0x0ffffff7
 #define FAT_CLUSTER_LAST                 (FAT_ENTRY)0x0fffffff
 
-//
-//  Fat files have the following time/date structures.  Note that the
-//  following structure is a 32 bits long but USHORT aligned.
-//
+/* 
+ * Fat files have the following time/date structures.  Note that the
+ * following structure is a 32 bits long but USHORT aligned.
+ */
 
 typedef struct _FAT_TIME {
 
@@ -314,18 +314,18 @@ typedef struct _FAT_TIME_STAMP {
 } FAT_TIME_STAMP;
 typedef FAT_TIME_STAMP* PFAT_TIME_STAMP;
 
-//
-//  Fat files have 8 character file names and 3 character extensions
-//
+/* 
+ * Fat files have 8 character file names and 3 character extensions
+ */
 
 typedef UCHAR FAT8DOT3[11];
 typedef FAT8DOT3* PFAT8DOT3;
 
 
-//
-//  The directory entry record exists for every file/directory on the
-//  disk except for the root directory.
-//
+/* 
+ * The directory entry record exists for every file/directory on the
+ * disk except for the root directory.
+ */
 
 typedef struct _PACKED_DIRENT {
     FAT8DOT3       FileName;                         //  offset =  0
@@ -344,52 +344,52 @@ typedef struct _PACKED_DIRENT {
 } PACKED_DIRENT;                                     //  sizeof = 32
 typedef PACKED_DIRENT* PPACKED_DIRENT;
 
-//
-//  A packed dirent is already quadword aligned so simply declare a dirent as a
-//  packed dirent
-//
+/* 
+ * A packed dirent is already quadword aligned so simply declare a dirent as a
+ * packed dirent
+ */
 
 typedef PACKED_DIRENT DIRENT;
 typedef DIRENT* PDIRENT;
 
-//
-//  The first byte of a dirent describes the dirent.  There is also a routine
-//  to help in deciding how to interpret the dirent.
-//
+/* 
+ * The first byte of a dirent describes the dirent.  There is also a routine
+ * to help in deciding how to interpret the dirent.
+ */
 
 #define FAT_DIRENT_NEVER_USED            0x00
 #define FAT_DIRENT_REALLY_0E5            0x05
 #define FAT_DIRENT_DIRECTORY_ALIAS       0x2e
 #define FAT_DIRENT_DELETED               0xe5
 
-//
-//  Define the NtByte bits.
-//
+/* 
+ * Define the NtByte bits.
+ */
 
-//
-// These two bits are used for EFS on FAT
-// 0x1 means the file contents are encrypted
-// 
-// 0x2 means the EFS metadata header is big. 
-// (this optimization means we don't have to read 
-// in the first sector of the file stream to get 
-// the normal header size)
-//
+/* 
+ * These two bits are used for EFS on FAT
+ * 0x1 means the file contents are encrypted
+ * 
+ * 0x2 means the EFS metadata header is big. 
+ * (this optimization means we don't have to read 
+ * in the first sector of the file stream to get 
+ * the normal header size)
+ */
 
 #define FAT_DIRENT_NT_BYTE_ENCRYPTED      0x01 
 #define FAT_DIRENT_NT_BYTE_BIG_HEADER     0x02
 
-//
-// These two bits optimize the case in which either the name
-// or extension are all lower case.
-//
+/* 
+ * These two bits optimize the case in which either the name
+ * or extension are all lower case.
+ */
 
 #define FAT_DIRENT_NT_BYTE_8_LOWER_CASE   0x08
 #define FAT_DIRENT_NT_BYTE_3_LOWER_CASE   0x10
 
-//
-//  Define the various dirent attributes
-//
+/*
+ * Define the various dirent attributes
+ */
 
 #define FAT_DIRENT_ATTR_READ_ONLY        0x01
 #define FAT_DIRENT_ATTR_HIDDEN           0x02
@@ -403,33 +403,33 @@ typedef DIRENT* PDIRENT;
                                           FAT_DIRENT_ATTR_SYSTEM |    \
                                           FAT_DIRENT_ATTR_VOLUME_ID)
 
-//
-// On-disk extension for EFS files.
-//
+/* 
+ * On-disk extension for EFS files.
+ */
 
 #define FAT_EFS_EXTENSION L".PFILE"
 #define FAT_EFS_EXTENSION_CHARCOUNT (6)
 #define FAT_EFS_EXTENSION_BYTECOUNT (12)
 
 
-//
-//  These macros convert a number of fields in the Bpb to bytes from sectors
-//
-//      ULONG
-//      FatBytesPerCluster (
-//          IN PBIOS_PARAMETER_BLOCK Bios
-//      );
-//
-//      ULONG
-//      FatBytesPerFat (
-//          IN PBIOS_PARAMETER_BLOCK Bios
-//      );
-//
-//      ULONG
-//      FatReservedBytes (
-//          IN PBIOS_PARAMETER_BLOCK Bios
-//      );
-//
+/* 
+ * These macros convert a number of fields in the Bpb to bytes from sectors
+ * 
+ *     ULONG
+ *     FatBytesPerCluster (
+ *         IN PBIOS_PARAMETER_BLOCK Bios
+ *     );
+ * 
+ *     ULONG
+ *     FatBytesPerFat (
+ *         IN PBIOS_PARAMETER_BLOCK Bios
+ *     );
+ * 
+ *     ULONG
+ *     FatReservedBytes (
+ *         IN PBIOS_PARAMETER_BLOCK Bios
+ *     );
+ */
 
 #define FatBytesPerCluster(B) ((ULONG)((B)->BytesPerSector * (B)->SectorsPerCluster))
 
@@ -439,71 +439,72 @@ typedef DIRENT* PDIRENT;
 
 #define FatReservedBytes(B) ((ULONG)((B)->BytesPerSector * (B)->ReservedSectors))
 
-//
-//  This macro returns the size of the root directory dirent area in bytes
-//  For Fat32, the root directory is variable in length.  This macro returns
-//  0 because it is also used to determine the location of cluster 2.
-//
-//      ULONG
-//      FatRootDirectorySize (
-//          IN PBIOS_PARAMETER_BLOCK Bios
-//          );
-//
+/* 
+ * This macro returns the size of the root directory dirent area in bytes
+ * For Fat32, the root directory is variable in length.  This macro returns
+ * 0 because it is also used to determine the location of cluster 2.
+ * 
+ *     ULONG
+ *     FatRootDirectorySize (
+ *         IN PBIOS_PARAMETER_BLOCK Bios
+ *         );
+ */
 
 #define FatRootDirectorySize(B) ((ULONG)((B)->RootEntries * sizeof(DIRENT)))
 
 
-//
-//  This macro returns the first Lbo (zero based) of the root directory on
-//  the device.  This area is after the reserved and fats.
-//
-//  For Fat32, the root directory is moveable.  This macro returns the LBO
-//  for cluster 2 because it is used to determine the location of cluster 2.
-//  FatRootDirectoryLbo32() returns the actual LBO of the beginning of the
-//  actual root directory.
-//
-//      LBO
-//      FatRootDirectoryLbo (
-//          IN PBIOS_PARAMETER_BLOCK Bios
-//          );
-//
+/* 
+ * This macro returns the first Lbo (zero based) of the root directory on
+ * the device.  This area is after the reserved and fats.
+ * 
+ * For Fat32, the root directory is moveable.  This macro returns the LBO
+ * for cluster 2 because it is used to determine the location of cluster 2.
+ * FatRootDirectoryLbo32() returns the actual LBO of the beginning of the
+ * actual root directory.
+ * 
+ *     LBO
+ *     FatRootDirectoryLbo (
+ *         IN PBIOS_PARAMETER_BLOCK Bios
+ *         );
+ *
+ */
 
 #define FatRootDirectoryLbo(B) (FatReservedBytes(B) + ((B)->Fats * FatBytesPerFat(B)))
 #define FatRootDirectoryLbo32(B) (FatFileAreaLbo(B)+((B)->RootDirFirstCluster-2)*FatBytesPerCluster(B))
 
-//
-//  This macro returns the first Lbo (zero based) of the file area on the
-//  the device.  This area is after the reserved, fats, and root directory.
-//
-//      LBO
-//      FatFirstFileAreaLbo (
-//          IN PBIOS_PARAMTER_BLOCK Bios
-//          );
-//
+/* 
+ * This macro returns the first Lbo (zero based) of the file area on the
+ * the device.  This area is after the reserved, fats, and root directory.
+ * 
+ *     LBO
+ *     FatFirstFileAreaLbo (
+ *         IN PBIOS_PARAMTER_BLOCK Bios
+ *         );
+ */
 
 #define FatFileAreaLbo(B) (FatRootDirectoryLbo(B) + FatRootDirectorySize(B))
 
-//
-//  This macro returns the number of clusters on the disk.  This value is
-//  computed by taking the total sectors on the disk subtracting up to the
-//  first file area sector and then dividing by the sectors per cluster count.
-//  Note that I don't use any of the above macros since far too much
-//  superfluous sector/byte conversion would take place.
-//
-//      ULONG
-//      FatNumberOfClusters (
-//          IN PBIOS_PARAMETER_BLOCK Bios
-//          );
-//
+/* 
+ * This macro returns the number of clusters on the disk.  This value is
+ * computed by taking the total sectors on the disk subtracting up to the
+ * first file area sector and then dividing by the sectors per cluster count.
+ * Note that I don't use any of the above macros since far too much
+ * superfluous sector/byte conversion would take place.
+ * 
+ *     ULONG
+ *     FatNumberOfClusters (
+ *         IN PBIOS_PARAMETER_BLOCK Bios
+ *         );
+ */
 
-//
-// for prior to MS-DOS Version 3.2
-//
-// After DOS 4.0, at least one of these, Sectors or LargeSectors, will be zero.
-// but DOS version 3.2 case, both of these value might contains some value,
-// because, before 3.2, we don't have Large Sector entry, some disk might have
-// unexpected value in the field, we will use LargeSectors if Sectors eqaul to zero.
-//
+/* 
+ * for prior to MS-DOS Version 3.2
+ * 
+ * After DOS 4.0, at least one of these, Sectors or LargeSectors, will be zero.
+ * but DOS version 3.2 case, both of these value might contains some value,
+ * because, before 3.2, we don't have Large Sector entry, some disk might have
+ * unexpected value in the field, we will use LargeSectors if Sectors eqaul to zero.
+ */
 
 #define FatNumberOfClusters(B) (                                         \
                                                                          \
@@ -529,31 +530,31 @@ typedef DIRENT* PDIRENT;
                         (B)->SectorsPerCluster)                          \
 )
 
-//
-//  This macro returns the fat table bit size (i.e., 12 or 16 bits)
-//
-//      ULONG
-//      FatIndexBitSize (
-//          IN PBIOS_PARAMETER_BLOCK Bios
-//          );
-//
+/* 
+ * This macro returns the fat table bit size (i.e., 12 or 16 bits)
+ * 
+ *     ULONG
+ *     FatIndexBitSize (
+ *         IN PBIOS_PARAMETER_BLOCK Bios
+ *         );
+ */
 
 #define FatIndexBitSize(B)  \
     ((UCHAR)(IsBpbFat32(B) ? 32 : (FatNumberOfClusters(B) < 4087 ? 12 : 16)))
 
-//
-//  This macro raises STATUS_FILE_CORRUPT and marks the Fcb bad if an
-//  index value is not within the proper range.
-//  Note that the first two index values are invalid (0, 1), so we must
-//  add two from the top end to make sure the everything is within range
-//
-//      VOID
-//      FatVerifyIndexIsValid (
-//          IN PIRP_CONTEXT IrpContext,
-//          IN PVCB Vcb,
-//          IN ULONG Index
-//          );
-//
+/* 
+ * This macro raises STATUS_FILE_CORRUPT and marks the Fcb bad if an
+ * index value is not within the proper range.
+ * Note that the first two index values are invalid (0, 1), so we must
+ * add two from the top end to make sure the everything is within range
+ * 
+ *     VOID
+ *     FatVerifyIndexIsValid (
+ *         IN PIRP_CONTEXT IrpContext,
+ *         IN PVCB Vcb,
+ *         IN ULONG Index
+ *         );
+ */
 
 #define FatVerifyIndexIsValid(IC,V,I) {                                       \
     if (((I) < 2) || ((I) > ((V)->AllocationSupport.NumberOfClusters + 1))) { \
@@ -561,26 +562,26 @@ typedef DIRENT* PDIRENT;
     }                                                                         \
 }
 
-//
-//  These two macros are used to translate between Logical Byte Offsets,
-//  and fat entry indexes.  Note the use of variables stored in the Vcb.
-//  These two macros are used at a higher level than the other macros
-//  above.
-//
-//  Note, these indexes are true cluster numbers.
-//
-//  LBO
-//  GetLboFromFatIndex (
-//      IN FAT_ENTRY Fat_Index,
-//      IN PVCB Vcb
-//      );
-//
-//  FAT_ENTRY
-//  GetFatIndexFromLbo (
-//      IN LBO Lbo,
-//      IN PVCB Vcb
-//      );
-//
+/* 
+ * These two macros are used to translate between Logical Byte Offsets,
+ * and fat entry indexes.  Note the use of variables stored in the Vcb.
+ * These two macros are used at a higher level than the other macros
+ * above.
+ * 
+ * Note, these indexes are true cluster numbers.
+ * 
+ * LBO
+ * GetLboFromFatIndex (
+ *     IN FAT_ENTRY Fat_Index,
+ *     IN PVCB Vcb
+ *     );
+ * 
+ * FAT_ENTRY
+ * GetFatIndexFromLbo (
+ *     IN LBO Lbo,
+ *     IN PVCB Vcb
+ *     );
+ */
 
 #define FatGetLboFromIndex(VCB,FAT_INDEX) (                                       \
     ( (LBO)                                                                       \
@@ -596,16 +597,16 @@ typedef DIRENT* PDIRENT;
     )                                                      \
 )
 
-//
-//  The following macro does the shifting and such to lookup an entry
-//
-//  VOID
-//  FatLookup12BitEntry(
-//      IN PVOID Fat,
-//      IN FAT_ENTRY Index,
-//      OUT PFAT_ENTRY Entry
-//      );
-//
+/* 
+ * The following macro does the shifting and such to lookup an entry
+ * 
+ * VOID
+ * FatLookup12BitEntry(
+ *     IN PVOID Fat,
+ *     IN FAT_ENTRY Index,
+ *     OUT PFAT_ENTRY Entry
+ *     );
+ */
 
 #define FatLookup12BitEntry(FAT,INDEX,ENTRY) {                              \
                                                                             \
@@ -615,16 +616,16 @@ typedef DIRENT* PDIRENT;
                                                    *(ENTRY)));              \
 }
 
-//
-//  The following macro does the tmp shifting and such to store an entry
-//
-//  VOID
-//  FatSet12BitEntry(
-//      IN PVOID Fat,
-//      IN FAT_ENTRY Index,
-//      IN FAT_ENTRY Entry
-//      );
-//
+/* 
+ * The following macro does the tmp shifting and such to store an entry
+ * 
+ * VOID
+ * FatSet12BitEntry(
+ *     IN PVOID Fat,
+ *     IN FAT_ENTRY Index,
+ *     IN FAT_ENTRY Entry
+ *     );
+ */
 
 #define FatSet12BitEntry(FAT,INDEX,ENTRY) {                            \
                                                                        \
@@ -639,9 +640,9 @@ typedef DIRENT* PDIRENT;
     *((UNALIGNED UCHAR2 *)((PUCHAR)(FAT) + (INDEX) * 3 / 2)) = *((UNALIGNED UCHAR2 *)(&TmpFatEntry)); \
 }
 
-//
-//  The following macro compares two FAT_TIME_STAMPs
-//
+/* 
+ * The following macro compares two FAT_TIME_STAMPs
+ */
 
 #define FatAreTimesEqual(TIME1,TIME2) (                     \
     RtlEqualMemory((TIME1),(TIME2), sizeof(FAT_TIME_STAMP)) \
@@ -651,11 +652,11 @@ typedef DIRENT* PDIRENT;
 #define EA_FILE_SIGNATURE                (0x4445) // "ED"
 #define EA_SET_SIGNATURE                 (0x4145) // "EA"
 
-//
-//  If the volume contains any ea data then there is one EA file called
-//  "EA DATA. SF" located in the root directory as Hidden, System and
-//  ReadOnly.
-//
+/* 
+ * If the volume contains any ea data then there is one EA file called
+ * "EA DATA. SF" located in the root directory as Hidden, System and
+ * ReadOnly.
+ */
 
 typedef struct _EA_FILE_HEADER {
     USHORT Signature;           // offset = 0
@@ -679,12 +680,12 @@ typedef USHORT EA_OFF_TABLE[128];
 
 typedef EA_OFF_TABLE* PEA_OFF_TABLE;
 
-//
-//  Every file with an extended attribute contains in its dirent an index
-//  into the EaMapTable.  The map table contains an offset within the ea
-//  file (cluster aligned) of the ea data for the file.  The individual
-//  ea data for each file is prefaced with an Ea Data Header.
-//
+/* 
+ * Every file with an extended attribute contains in its dirent an index
+ * into the EaMapTable.  The map table contains an offset within the ea
+ * file (cluster aligned) of the ea data for the file.  The individual
+ * ea data for each file is prefaced with an Ea Data Header.
+ */
 
 typedef struct _EA_SET_HEADER {
     USHORT Signature;           // offset = 0
@@ -713,9 +714,9 @@ typedef EA_SET_HEADER* PEA_SET_HEADER;
     (EASET)->cbList[3] = (CB >> 24) & 0x0ff; \
 }
 
-//
-//  Every individual ea in an ea set is declared the following packed ea
-//
+/* 
+ * Every individual ea in an ea set is declared the following packed ea
+ */
 
 typedef struct _PACKED_EA {
     UCHAR Flags;
@@ -725,22 +726,22 @@ typedef struct _PACKED_EA {
 } PACKED_EA;
 typedef PACKED_EA* PPACKED_EA;
 
-//
-//  The following two macros are used to get and set the ea value length
-//  field of a packed ea
-//
-//      VOID
-//      GetEaValueLength (
-//          IN PPACKED_EA Ea,
-//          OUT PUSHORT ValueLength
-//          );
-//
-//      VOID
-//      SetEaValueLength (
-//          IN PPACKED_EA Ea,
-//          IN USHORT ValueLength
-//          );
-//
+/* 
+ * The following two macros are used to get and set the ea value length
+ * field of a packed ea
+ * 
+ *     VOID
+ *     GetEaValueLength (
+ *         IN PPACKED_EA Ea,
+ *         OUT PUSHORT ValueLength
+ *         );
+ * 
+ *     VOID
+ *     SetEaValueLength (
+ *         IN PPACKED_EA Ea,
+ *         IN USHORT ValueLength
+ *         );
+ */
 
 #define GetEaValueLength(EA,LEN) {               \
     *(LEN) = 0;                                  \
@@ -751,15 +752,15 @@ typedef PACKED_EA* PPACKED_EA;
     CopyUchar2( &((EA)->EaValueLength), (LEN) ); \
 }
 
-//
-//  The following macro is used to get the size of a packed ea
-//
-//      VOID
-//      SizeOfPackedEa (
-//          IN PPACKED_EA Ea,
-//          OUT PUSHORT EaSize
-//          );
-//
+/* 
+ * The following macro is used to get the size of a packed ea
+ * 
+ *     VOID
+ *     SizeOfPackedEa (
+ *         IN PPACKED_EA Ea,
+ *         OUT PUSHORT EaSize
+ *         );
+ */
 
 #define SizeOfPackedEa(EA,SIZE) {          \
     ULONG _NL,_DL; _NL = 0; _DL = 0;       \
@@ -776,8 +777,9 @@ typedef PACKED_EA* PPACKED_EA;
 #define MAX_EA_BASE_INDEX               240
 #define MAX_EA_OFFSET_INDEX             128
 
-// For Fat large file name
-
+/* 
+ * For Fat large file name
+ */
 typedef struct _PACKED_LFN_DIRENT {
     UCHAR     Ordinal;    //  offset =  0
     UCHAR     Name1[10];  //  offset =  1 (Really 5 chars, but not WCHAR aligned)
@@ -793,27 +795,27 @@ typedef PACKED_LFN_DIRENT* PPACKED_LFN_DIRENT;
 #define FAT_LAST_LONG_ENTRY             0x40 // Ordinal field
 #define FAT_LONG_NAME_COMP              0x0  // Type field
 
-//
-//  A packed lfn dirent is already quadword aligned so simply declare a
-//  lfn dirent as a packed lfn dirent.
-//
+/* 
+ * A packed lfn dirent is already quadword aligned so simply declare a
+ * lfn dirent as a packed lfn dirent.
+ */
 
 typedef PACKED_LFN_DIRENT LFN_DIRENT;
 typedef LFN_DIRENT* PLFN_DIRENT;
 
-//
-//  This is the largest size buffer we would ever need to read an Lfn
-//
+/* 
+ * This is the largest size buffer we would ever need to read an Lfn
+ */
 
 #define MAX_LFN_CHARACTERS              260
 #define MAX_LFN_DIRENTS                 20
 
 #define FAT_LFN_DIRENTS_NEEDED(NAME) (((NAME)->Length/sizeof(WCHAR) + 12)/13)
 
-//
-// Implementation of exfat
-// https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification
-//
+/* 
+ * Implementation of exfat
+ * https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification
+ */
 
 #define EXFAT_MAIN_BOOT_SECTOR 0
 #define EXFAT_BACKUP_BOOT_REGION_SECTOR 12
@@ -822,9 +824,9 @@ typedef LFN_DIRENT* PLFN_DIRENT;
 #define EXFAT_BAD_BLOCK 0xFFFFFFF7u
 #define EXFAT_END_CLUSTER 0xFFFFFFFFFu
 
-// 
-// Exfat boot sector part.
-//
+/* 
+ * Exfat boot sector part.
+ */
 typedef struct _EXFAT_BOOT_SECTOR {
     UCHAR JumpBoot[3];								// offset = 0x000  3
     UCHAR FileSystemName[8];						// offset = 0x003  8
@@ -849,9 +851,9 @@ typedef struct _EXFAT_BOOT_SECTOR {
     UCHAR BootSignature[2];							// offset = 0x436  2
 } EXFAT_BOOT_SECTOR;
 
-//
-// Exfat directory entry structure.
-//
+/* 
+ * Exfat directory entry structure.
+ */
 typedef struct _EXFAT_DIRECTORY_ENTRY {
 	UCHAR EntryType[1];								// offset = 0x000  1
 	union {
@@ -871,9 +873,9 @@ typedef struct _EXFAT_DIRECTORY_ENTRY {
 	UCHAR DataLength[8];							// offset = 0x018  8
 } EXFAT_DIRECTORY_ENTRY;
 
-// 
-// Exfat directory entry labal.
-//
+/* 
+ * Exfat directory entry labal.
+ */
 typedef struct _EXFAT_DIRECTORY_ENTRY_LABEL {
 	UCHAR EntryType[1];								// offset = 0x000  1
 	UCHAR CharacterCount[1];						// offset = 0x001  1
