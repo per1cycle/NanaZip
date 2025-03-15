@@ -1,4 +1,4 @@
-﻿/*++
+﻿/*
  *
  * Copyright (c) 1989-2000 Microsoft Corporation
  * 
@@ -29,7 +29,7 @@
  *         or allocation.
  */
 
-typedef LONGLONG LBO;    /* for Fat32, LBO is >32 bits */
+typedef LONGLONG LBO; /* for Fat32, LBO is >32 bits */
 
 typedef LBO* PLBO;
 
@@ -41,28 +41,28 @@ typedef VBO* PVBO;
  * This macro copies an unaligned src byte to an aligned dst byte
  */
 
-#define CopyUchar1(Dst,Src) {                               \
-    *((UCHAR1 *)(Dst)) = *((UNALIGNED UCHAR1 *)(Src));      \
+#define CopyUchar1(Dst,Src) { \
+    *((UCHAR1 *)(Dst)) = *((UNALIGNED UCHAR1 *)(Src)); \
     }
 
 /* 
  * This macro copies an unaligned src word to an aligned dst word
  */
 
-#define CopyUchar2(Dst,Src) {                               \
-    *((UCHAR2 *)(Dst)) = *((UNALIGNED UCHAR2 *)(Src));      \
+#define CopyUchar2(Dst,Src) { \
+    *((UCHAR2 *)(Dst)) = *((UNALIGNED UCHAR2 *)(Src)); \
     }
 
 /* 
  * This macro copies an unaligned src longword to an aligned dsr longword
  */
 
-#define CopyUchar4(Dst,Src) {                               \
-    *((UCHAR4 *)(Dst)) = *((UNALIGNED UCHAR4 *)(Src));      \
+#define CopyUchar4(Dst,Src) { \
+    *((UCHAR4 *)(Dst)) = *((UNALIGNED UCHAR4 *)(Src)); \
     }
 
-#define CopyU4char(Dst,Src) {                               \
-    *((UNALIGNED UCHAR4 *)(Dst)) = *((UCHAR4 *)(Src));      \
+#define CopyU4char(Dst,Src) { \
+    *((UNALIGNED UCHAR4 *)(Dst)) = *((UCHAR4 *)(Src)); \
     }
 
 /* 
@@ -79,42 +79,42 @@ typedef VBO* PVBO;
  */
 
 typedef struct _PACKED_BIOS_PARAMETER_BLOCK {
-    UCHAR  BytesPerSector[2];                       // offset = 0x000  0
-    UCHAR  SectorsPerCluster[1];                    // offset = 0x002  2
-    UCHAR  ReservedSectors[2];                      // offset = 0x003  3
-    UCHAR  Fats[1];                                 // offset = 0x005  5
-    UCHAR  RootEntries[2];                          // offset = 0x006  6
-    UCHAR  Sectors[2];                              // offset = 0x008  8
-    UCHAR  Media[1];                                // offset = 0x00A 10
-    UCHAR  SectorsPerFat[2];                        // offset = 0x00B 11
-    UCHAR  SectorsPerTrack[2];                      // offset = 0x00D 13
-    UCHAR  Heads[2];                                // offset = 0x00F 15
-    UCHAR  HiddenSectors[4];                        // offset = 0x011 17
-    UCHAR  LargeSectors[4];                         // offset = 0x015 21
-} PACKED_BIOS_PARAMETER_BLOCK;                      // sizeof = 0x019 25
+    UCHAR BytesPerSector[2]; // offset = 0x000  0
+    UCHAR SectorsPerCluster[1]; // offset = 0x002  2
+    UCHAR ReservedSectors[2]; // offset = 0x003  3
+    UCHAR Fats[1]; // offset = 0x005  5
+    UCHAR RootEntries[2]; // offset = 0x006  6
+    UCHAR Sectors[2]; // offset = 0x008  8
+    UCHAR Media[1]; // offset = 0x00A 10
+    UCHAR SectorsPerFat[2]; // offset = 0x00B 11
+    UCHAR SectorsPerTrack[2]; // offset = 0x00D 13
+    UCHAR Heads[2]; // offset = 0x00F 15
+    UCHAR HiddenSectors[4]; // offset = 0x011 17
+    UCHAR LargeSectors[4]; // offset = 0x015 21
+} PACKED_BIOS_PARAMETER_BLOCK; // sizeof = 0x019 25
 typedef PACKED_BIOS_PARAMETER_BLOCK* PPACKED_BIOS_PARAMETER_BLOCK;
 
 typedef struct _PACKED_BIOS_PARAMETER_BLOCK_EX {
-    UCHAR  BytesPerSector[2];                       // offset = 0x000  0
-    UCHAR  SectorsPerCluster[1];                    // offset = 0x002  2
-    UCHAR  ReservedSectors[2];                      // offset = 0x003  3
-    UCHAR  Fats[1];                                 // offset = 0x005  5
-    UCHAR  RootEntries[2];                          // offset = 0x006  6
-    UCHAR  Sectors[2];                              // offset = 0x008  8
-    UCHAR  Media[1];                                // offset = 0x00A 10
-    UCHAR  SectorsPerFat[2];                        // offset = 0x00B 11
-    UCHAR  SectorsPerTrack[2];                      // offset = 0x00D 13
-    UCHAR  Heads[2];                                // offset = 0x00F 15
-    UCHAR  HiddenSectors[4];                        // offset = 0x011 17
-    UCHAR  LargeSectors[4];                         // offset = 0x015 21
-    UCHAR  LargeSectorsPerFat[4];                   // offset = 0x019 25
-    UCHAR  ExtendedFlags[2];                        // offset = 0x01D 29
-    UCHAR  FsVersion[2];                            // offset = 0x01F 31
-    UCHAR  RootDirFirstCluster[4];                  // offset = 0x021 33
-    UCHAR  FsInfoSector[2];                         // offset = 0x025 37
-    UCHAR  BackupBootSector[2];                     // offset = 0x027 39
-    UCHAR  Reserved[12];                            // offset = 0x029 41
-} PACKED_BIOS_PARAMETER_BLOCK_EX;                   // sizeof = 0x035 53
+    UCHAR BytesPerSector[2]; // offset = 0x000  0
+    UCHAR SectorsPerCluster[1]; // offset = 0x002  2
+    UCHAR ReservedSectors[2]; // offset = 0x003  3
+    UCHAR Fats[1]; // offset = 0x005  5
+    UCHAR RootEntries[2]; // offset = 0x006  6
+    UCHAR Sectors[2]; // offset = 0x008  8
+    UCHAR Media[1]; // offset = 0x00A 10
+    UCHAR SectorsPerFat[2]; // offset = 0x00B 11
+    UCHAR SectorsPerTrack[2]; // offset = 0x00D 13
+    UCHAR Heads[2]; // offset = 0x00F 15
+    UCHAR HiddenSectors[4]; // offset = 0x011 17
+    UCHAR LargeSectors[4]; // offset = 0x015 21
+    UCHAR LargeSectorsPerFat[4]; // offset = 0x019 25
+    UCHAR ExtendedFlags[2]; // offset = 0x01D 29
+    UCHAR FsVersion[2]; // offset = 0x01F 31
+    UCHAR RootDirFirstCluster[4]; // offset = 0x021 33
+    UCHAR FsInfoSector[2]; // offset = 0x025 37
+    UCHAR BackupBootSector[2]; // offset = 0x027 39
+    UCHAR Reserved[12]; // offset = 0x029 41
+} PACKED_BIOS_PARAMETER_BLOCK_EX; // sizeof = 0x035 53
 
 typedef PACKED_BIOS_PARAMETER_BLOCK_EX* PPACKED_BIOS_PARAMETER_BLOCK_EX;
 
@@ -128,18 +128,18 @@ typedef PACKED_BIOS_PARAMETER_BLOCK_EX* PPACKED_BIOS_PARAMETER_BLOCK_EX;
 
 typedef struct BIOS_PARAMETER_BLOCK {
     USHORT BytesPerSector;
-    UCHAR  SectorsPerCluster;
+    UCHAR SectorsPerCluster;
     USHORT ReservedSectors;
-    UCHAR  Fats;
+    UCHAR Fats;
     USHORT RootEntries;
     USHORT Sectors;
-    UCHAR  Media;
+    UCHAR Media;
     USHORT SectorsPerFat;
     USHORT SectorsPerTrack;
     USHORT Heads;
-    ULONG32  HiddenSectors;
-    ULONG32  LargeSectors;
-    ULONG32  LargeSectorsPerFat;
+    ULONG32 HiddenSectors;
+    ULONG32 LargeSectors;
+    ULONG32 LargeSectorsPerFat;
     union {
         USHORT ExtendedFlags;
         struct {
@@ -159,26 +159,26 @@ typedef struct BIOS_PARAMETER_BLOCK {
  * This macro takes a Packed BIOS and fills in its Unpacked equivalent
  */
 
-#define FatUnpackBios(Bios,Pbios) {                                         \
-    CopyUchar2(&(Bios)->BytesPerSector,    &(Pbios)->BytesPerSector[0]   ); \
+#define FatUnpackBios(Bios,Pbios) { \
+    CopyUchar2(&(Bios)->BytesPerSector, &(Pbios)->BytesPerSector[0]); \
     CopyUchar1(&(Bios)->SectorsPerCluster, &(Pbios)->SectorsPerCluster[0]); \
-    CopyUchar2(&(Bios)->ReservedSectors,   &(Pbios)->ReservedSectors[0]  ); \
-    CopyUchar1(&(Bios)->Fats,              &(Pbios)->Fats[0]             ); \
-    CopyUchar2(&(Bios)->RootEntries,       &(Pbios)->RootEntries[0]      ); \
-    CopyUchar2(&(Bios)->Sectors,           &(Pbios)->Sectors[0]          ); \
-    CopyUchar1(&(Bios)->Media,             &(Pbios)->Media[0]            ); \
-    CopyUchar2(&(Bios)->SectorsPerFat,     &(Pbios)->SectorsPerFat[0]    ); \
-    CopyUchar2(&(Bios)->SectorsPerTrack,   &(Pbios)->SectorsPerTrack[0]  ); \
-    CopyUchar2(&(Bios)->Heads,             &(Pbios)->Heads[0]            ); \
-    CopyUchar4(&(Bios)->HiddenSectors,     &(Pbios)->HiddenSectors[0]    ); \
-    CopyUchar4(&(Bios)->LargeSectors,      &(Pbios)->LargeSectors[0]     ); \
-    CopyUchar4(&(Bios)->LargeSectorsPerFat,&((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->LargeSectorsPerFat[0]  ); \
-    CopyUchar2(&(Bios)->ExtendedFlags,     &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->ExtendedFlags[0]       ); \
-    CopyUchar2(&(Bios)->FsVersion,         &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->FsVersion[0]           ); \
-    CopyUchar4(&(Bios)->RootDirFirstCluster,                                \
-                                           &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->RootDirFirstCluster[0] ); \
-    CopyUchar2(&(Bios)->FsInfoSector,      &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->FsInfoSector[0]        ); \
-    CopyUchar2(&(Bios)->BackupBootSector,  &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->BackupBootSector[0]    ); \
+    CopyUchar2(&(Bios)->ReservedSectors, &(Pbios)->ReservedSectors[0]); \
+    CopyUchar1(&(Bios)->Fats, &(Pbios)->Fats[0]); \
+    CopyUchar2(&(Bios)->RootEntries, &(Pbios)->RootEntries[0]); \
+    CopyUchar2(&(Bios)->Sectors, &(Pbios)->Sectors[0]); \
+    CopyUchar1(&(Bios)->Media, &(Pbios)->Media[0]); \
+    CopyUchar2(&(Bios)->SectorsPerFat, &(Pbios)->SectorsPerFat[0]); \
+    CopyUchar2(&(Bios)->SectorsPerTrack, &(Pbios)->SectorsPerTrack[0]); \
+    CopyUchar2(&(Bios)->Heads, &(Pbios)->Heads[0]); \
+    CopyUchar4(&(Bios)->HiddenSectors, &(Pbios)->HiddenSectors[0]); \
+    CopyUchar4(&(Bios)->LargeSectors, &(Pbios)->LargeSectors[0]); \
+    CopyUchar4(&(Bios)->LargeSectorsPerFat, &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->LargeSectorsPerFat[0]); \
+    CopyUchar2(&(Bios)->ExtendedFlags, &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->ExtendedFlags[0]); \
+    CopyUchar2(&(Bios)->FsVersion, &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->FsVersion[0]); \
+    CopyUchar4(&(Bios)->RootDirFirstCluster, \
+                            &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->RootDirFirstCluster[0]); \
+    CopyUchar2(&(Bios)->FsInfoSector, &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->FsInfoSector[0]); \
+    CopyUchar2(&(Bios)->BackupBootSector, &((PPACKED_BIOS_PARAMETER_BLOCK_EX)Pbios)->BackupBootSector[0]); \
 }
 
 /* 
@@ -186,30 +186,30 @@ typedef struct BIOS_PARAMETER_BLOCK {
  */
 
 typedef struct _PACKED_BOOT_SECTOR {
-    UCHAR Jump[3];                                  // offset = 0x000   0
-    UCHAR Oem[8];                                   // offset = 0x003   3
-    PACKED_BIOS_PARAMETER_BLOCK PackedBpb;          // offset = 0x00B  11
-    UCHAR PhysicalDriveNumber;                      // offset = 0x024  36
-    UCHAR CurrentHead;                              // offset = 0x025  37
-    UCHAR Signature;                                // offset = 0x026  38
-    UCHAR Id[4];                                    // offset = 0x027  39
-    UCHAR VolumeLabel[11];                          // offset = 0x02B  43
-    UCHAR SystemId[8];                              // offset = 0x036  54
-} PACKED_BOOT_SECTOR;                               // sizeof = 0x03E  62
+    UCHAR Jump[3]; // offset = 0x000   0
+    UCHAR Oem[8]; // offset = 0x003   3
+    PACKED_BIOS_PARAMETER_BLOCK PackedBpb; // offset = 0x00B  11
+    UCHAR PhysicalDriveNumber; // offset = 0x024  36
+    UCHAR CurrentHead; // offset = 0x025  37
+    UCHAR Signature; // offset = 0x026  38
+    UCHAR Id[4]; // offset = 0x027  39
+    UCHAR VolumeLabel[11]; // offset = 0x02B  43
+    UCHAR SystemId[8]; // offset = 0x036  54
+} PACKED_BOOT_SECTOR; // sizeof = 0x03E  62
 
 typedef PACKED_BOOT_SECTOR* PPACKED_BOOT_SECTOR;
 
 typedef struct _PACKED_BOOT_SECTOR_EX {
-    UCHAR Jump[3];                                  // offset = 0x000   0
-    UCHAR Oem[8];                                   // offset = 0x003   3
-    PACKED_BIOS_PARAMETER_BLOCK_EX PackedBpb;       // offset = 0x00B  11
-    UCHAR PhysicalDriveNumber;                      // offset = 0x040  64
-    UCHAR CurrentHead;                              // offset = 0x041  65
-    UCHAR Signature;                                // offset = 0x042  66
-    UCHAR Id[4];                                    // offset = 0x043  67
-    UCHAR VolumeLabel[11];                          // offset = 0x047  71
-    UCHAR SystemId[8];                              // offset = 0x058  88
-} PACKED_BOOT_SECTOR_EX;                            // sizeof = 0x060  96
+    UCHAR Jump[3]; // offset = 0x000   0
+    UCHAR Oem[8]; // offset = 0x003   3
+    PACKED_BIOS_PARAMETER_BLOCK_EX PackedBpb; // offset = 0x00B  11
+    UCHAR PhysicalDriveNumber; // offset = 0x040  64
+    UCHAR CurrentHead; // offset = 0x041  65
+    UCHAR Signature; // offset = 0x042  66
+    UCHAR Id[4]; // offset = 0x043  67
+    UCHAR VolumeLabel[11]; // offset = 0x047  71
+    UCHAR SystemId[8]; // offset = 0x058  88
+} PACKED_BOOT_SECTOR_EX; // sizeof = 0x060  96
 
 typedef PACKED_BOOT_SECTOR_EX* PPACKED_BOOT_SECTOR_EX;
 
@@ -218,26 +218,26 @@ typedef PACKED_BOOT_SECTOR_EX* PPACKED_BOOT_SECTOR_EX;
  */
 
 typedef struct _FSINFO_SECTOR {
-    ULONG SectorBeginSignature;                     // offset = 0x000   0
-    UCHAR ExtraBootCode[480];                       // offset = 0x004   4
-    ULONG FsInfoSignature;                          // offset = 0x1e4 484
-    ULONG FreeClusterCount;                         // offset = 0x1e8 488
-    ULONG NextFreeCluster;                          // offset = 0x1ec 492
-    UCHAR Reserved[12];                             // offset = 0x1f0 496
-    ULONG SectorEndSignature;                       // offset = 0x1fc 508
+    ULONG SectorBeginSignature; // offset = 0x000   0
+    UCHAR ExtraBootCode[480]; // offset = 0x004   4
+    ULONG FsInfoSignature; // offset = 0x1e4 484
+    ULONG FreeClusterCount; // offset = 0x1e8 488
+    ULONG NextFreeCluster; // offset = 0x1ec 492
+    UCHAR Reserved[12]; // offset = 0x1f0 496
+    ULONG SectorEndSignature; // offset = 0x1fc 508
 } FSINFO_SECTOR, * PFSINFO_SECTOR;
 
-#define FSINFO_SECTOR_BEGIN_SIGNATURE   0x41615252
-#define FSINFO_SECTOR_END_SIGNATURE     0xAA550000
+#define FSINFO_SECTOR_BEGIN_SIGNATURE 0x41615252
+#define FSINFO_SECTOR_END_SIGNATURE 0xAA550000
 
-#define FSINFO_SIGNATURE                0x61417272
+#define FSINFO_SIGNATURE 0x61417272
 
 /*
  * We use the CurrentHead field for our dirty partition info.
  */
 
-#define FAT_BOOT_SECTOR_DIRTY            0x01
-#define FAT_BOOT_SECTOR_TEST_SURFACE     0x02
+#define FAT_BOOT_SECTOR_DIRTY 0x01
+#define FAT_BOOT_SECTOR_TEST_SURFACE 0x02
 
 /*
  * Define a Fat Entry type.
@@ -257,10 +257,10 @@ typedef ULONG32 FAT_ENTRY;
  * DOS/Win9x compatibility.
  */
 
-#define FAT_CLEAN_VOLUME        (~FAT32_ENTRY_MASK | 0)
-#define FAT_DIRTY_VOLUME        (~FAT32_ENTRY_MASK | 1)
+#define FAT_CLEAN_VOLUME (~FAT32_ENTRY_MASK | 0)
+#define FAT_DIRTY_VOLUME (~FAT32_ENTRY_MASK | 1)
 
-#define FAT_DIRTY_BIT_INDEX     1
+#define FAT_DIRTY_BIT_INDEX 1
 
 /* 
  * Physically, the entry is fully set if clean, and the high
@@ -268,20 +268,20 @@ typedef ULONG32 FAT_ENTRY;
  * bit).  This means it is different per-FAT size.
  */
 
-#define FAT_CLEAN_ENTRY         (~0)
+#define FAT_CLEAN_ENTRY (~0)
 
-#define FAT12_DIRTY_ENTRY       0x7ff
-#define FAT16_DIRTY_ENTRY       0x7fff
-#define FAT32_DIRTY_ENTRY       0x7fffffff
+#define FAT12_DIRTY_ENTRY 0x7ff
+#define FAT16_DIRTY_ENTRY 0x7fff
+#define FAT32_DIRTY_ENTRY 0x7fffffff
 
 /* 
  * The following constants the are the valid Fat index values.
  */
 
-#define FAT_CLUSTER_AVAILABLE            (FAT_ENTRY)0x00000000
-#define FAT_CLUSTER_RESERVED             (FAT_ENTRY)0x0ffffff0
-#define FAT_CLUSTER_BAD                  (FAT_ENTRY)0x0ffffff7
-#define FAT_CLUSTER_LAST                 (FAT_ENTRY)0x0fffffff
+#define FAT_CLUSTER_AVAILABLE (FAT_ENTRY)0x00000000
+#define FAT_CLUSTER_RESERVED (FAT_ENTRY)0x0ffffff0
+#define FAT_CLUSTER_BAD (FAT_ENTRY)0x0ffffff7
+#define FAT_CLUSTER_LAST (FAT_ENTRY)0x0fffffff
 
 /* 
  * Fat files have the following time/date structures.  Note that the
@@ -289,28 +289,22 @@ typedef ULONG32 FAT_ENTRY;
  */
 
 typedef struct _FAT_TIME {
-
     USHORT DoubleSeconds : 5;
     USHORT Minute : 6;
     USHORT Hour : 5;
-
 } FAT_TIME;
 typedef FAT_TIME* PFAT_TIME;
 
 typedef struct _FAT_DATE {
-
     USHORT Day : 5;
     USHORT Month : 4;
     USHORT Year : 7; // Relative to 1980
-
 } FAT_DATE;
 typedef FAT_DATE* PFAT_DATE;
 
 typedef struct _FAT_TIME_STAMP {
-
     FAT_TIME Time;
     FAT_DATE Date;
-
 } FAT_TIME_STAMP;
 typedef FAT_TIME_STAMP* PFAT_TIME_STAMP;
 
@@ -328,20 +322,20 @@ typedef FAT8DOT3* PFAT8DOT3;
  */
 
 typedef struct _PACKED_DIRENT {
-    FAT8DOT3       FileName;                         //  offset =  0
-    UCHAR          Attributes;                       //  offset = 11
-    UCHAR          NtByte;                           //  offset = 12
-    UCHAR          CreationMSec;                     //  offset = 13
-    FAT_TIME_STAMP CreationTime;                     //  offset = 14
-    FAT_DATE       LastAccessDate;                   //  offset = 18
+    FAT8DOT3 FileName; //  offset =  0
+    UCHAR Attributes; //  offset = 11
+    UCHAR NtByte; //  offset = 12
+    UCHAR CreationMSec; //  offset = 13
+    FAT_TIME_STAMP CreationTime; //  offset = 14
+    FAT_DATE LastAccessDate; //  offset = 18
     union {
-        USHORT     ExtendedAttributes;               //  offset = 20
-        USHORT     FirstClusterOfFileHi;             //  offset = 20
+        USHORT ExtendedAttributes; //  offset = 20
+        USHORT FirstClusterOfFileHi; //  offset = 20
     };
-    FAT_TIME_STAMP LastWriteTime;                    //  offset = 22
-    USHORT         FirstClusterOfFile;               //  offset = 26
-    ULONG32        FileSize;                         //  offset = 28
-} PACKED_DIRENT;                                     //  sizeof = 32
+    FAT_TIME_STAMP LastWriteTime; //  offset = 22
+    USHORT FirstClusterOfFile; //  offset = 26
+    ULONG32 FileSize; //  offset = 28
+} PACKED_DIRENT; //  sizeof = 32
 typedef PACKED_DIRENT* PPACKED_DIRENT;
 
 /* 
@@ -357,10 +351,10 @@ typedef DIRENT* PDIRENT;
  * to help in deciding how to interpret the dirent.
  */
 
-#define FAT_DIRENT_NEVER_USED            0x00
-#define FAT_DIRENT_REALLY_0E5            0x05
-#define FAT_DIRENT_DIRECTORY_ALIAS       0x2e
-#define FAT_DIRENT_DELETED               0xe5
+#define FAT_DIRENT_NEVER_USED 0x00
+#define FAT_DIRENT_REALLY_0E5 0x05
+#define FAT_DIRENT_DIRECTORY_ALIAS 0x2e
+#define FAT_DIRENT_DELETED 0xe5
 
 /* 
  * Define the NtByte bits.
@@ -376,32 +370,32 @@ typedef DIRENT* PDIRENT;
  * the normal header size)
  */
 
-#define FAT_DIRENT_NT_BYTE_ENCRYPTED      0x01 
-#define FAT_DIRENT_NT_BYTE_BIG_HEADER     0x02
+#define FAT_DIRENT_NT_BYTE_ENCRYPTED 0x01 
+#define FAT_DIRENT_NT_BYTE_BIG_HEADER 0x02
 
 /* 
  * These two bits optimize the case in which either the name
  * or extension are all lower case.
  */
 
-#define FAT_DIRENT_NT_BYTE_8_LOWER_CASE   0x08
-#define FAT_DIRENT_NT_BYTE_3_LOWER_CASE   0x10
+#define FAT_DIRENT_NT_BYTE_8_LOWER_CASE 0x08
+#define FAT_DIRENT_NT_BYTE_3_LOWER_CASE 0x10
 
 /*
  * Define the various dirent attributes
  */
 
-#define FAT_DIRENT_ATTR_READ_ONLY        0x01
-#define FAT_DIRENT_ATTR_HIDDEN           0x02
-#define FAT_DIRENT_ATTR_SYSTEM           0x04
-#define FAT_DIRENT_ATTR_VOLUME_ID        0x08
-#define FAT_DIRENT_ATTR_DIRECTORY        0x10
-#define FAT_DIRENT_ATTR_ARCHIVE          0x20
-#define FAT_DIRENT_ATTR_DEVICE           0x40
-#define FAT_DIRENT_ATTR_LFN              (FAT_DIRENT_ATTR_READ_ONLY | \
-                                          FAT_DIRENT_ATTR_HIDDEN |    \
-                                          FAT_DIRENT_ATTR_SYSTEM |    \
-                                          FAT_DIRENT_ATTR_VOLUME_ID)
+#define FAT_DIRENT_ATTR_READ_ONLY 0x01
+#define FAT_DIRENT_ATTR_HIDDEN 0x02
+#define FAT_DIRENT_ATTR_SYSTEM 0x04
+#define FAT_DIRENT_ATTR_VOLUME_ID 0x08
+#define FAT_DIRENT_ATTR_DIRECTORY 0x10
+#define FAT_DIRENT_ATTR_ARCHIVE 0x20
+#define FAT_DIRENT_ATTR_DEVICE 0x40
+#define FAT_DIRENT_ATTR_LFN (FAT_DIRENT_ATTR_READ_ONLY | \
+                                FAT_DIRENT_ATTR_HIDDEN | \
+                                FAT_DIRENT_ATTR_SYSTEM | \
+                                FAT_DIRENT_ATTR_VOLUME_ID)
 
 /* 
  * On-disk extension for EFS files.
@@ -433,8 +427,8 @@ typedef DIRENT* PDIRENT;
 
 #define FatBytesPerCluster(B) ((ULONG)((B)->BytesPerSector * (B)->SectorsPerCluster))
 
-#define FatBytesPerFat(B) (IsBpbFat32(B)?                           \
-    ((ULONG)((B)->BytesPerSector * (B)->LargeSectorsPerFat)) :      \
+#define FatBytesPerFat(B) (IsBpbFat32(B)? \
+    ((ULONG)((B)->BytesPerSector * (B)->LargeSectorsPerFat)) : \
     ((ULONG)((B)->BytesPerSector * (B)->SectorsPerFat)))
 
 #define FatReservedBytes(B) ((ULONG)((B)->BytesPerSector * (B)->ReservedSectors))
@@ -506,28 +500,16 @@ typedef DIRENT* PDIRENT;
  * unexpected value in the field, we will use LargeSectors if Sectors eqaul to zero.
  */
 
-#define FatNumberOfClusters(B) (                                         \
-                                                                         \
-  IsBpbFat32(B) ?                                                        \
-                                                                         \
-    ((((B)->Sectors ? (B)->Sectors : (B)->LargeSectors)                  \
-                                                                         \
-        -   ((B)->ReservedSectors +                                      \
-             (B)->Fats * (B)->LargeSectorsPerFat ))                      \
-                                                                         \
-                                    /                                    \
-                                                                         \
-                        (B)->SectorsPerCluster)                          \
-  :                                                                      \
-    ((((B)->Sectors ? (B)->Sectors : (B)->LargeSectors)                  \
-                                                                         \
-        -   ((B)->ReservedSectors +                                      \
-             (B)->Fats * (B)->SectorsPerFat +                            \
-             (B)->RootEntries * sizeof(DIRENT) / (B)->BytesPerSector ) ) \
-                                                                         \
-                                    /                                    \
-                                                                         \
-                        (B)->SectorsPerCluster)                          \
+#define FatNumberOfClusters(B) ( \
+  IsBpbFat32(B) ? \
+    ((((B)->Sectors ? (B)->Sectors : (B)->LargeSectors) \
+        -   ((B)->ReservedSectors + \
+             (B)->Fats * (B)->LargeSectorsPerFat )) / (B)->SectorsPerCluster) \
+  : \
+    ((((B)->Sectors ? (B)->Sectors : (B)->LargeSectors) \
+        -   ((B)->ReservedSectors + \
+             (B)->Fats * (B)->SectorsPerFat + \
+             (B)->RootEntries * sizeof(DIRENT) / (B)->BytesPerSector ) ) / (B)->SectorsPerCluster) \
 )
 
 /* 
@@ -539,7 +521,7 @@ typedef DIRENT* PDIRENT;
  *         );
  */
 
-#define FatIndexBitSize(B)  \
+#define FatIndexBitSize(B) \
     ((UCHAR)(IsBpbFat32(B) ? 32 : (FatNumberOfClusters(B) < 4087 ? 12 : 16)))
 
 /* 
@@ -556,10 +538,10 @@ typedef DIRENT* PDIRENT;
  *         );
  */
 
-#define FatVerifyIndexIsValid(IC,V,I) {                                       \
+#define FatVerifyIndexIsValid(IC,V,I) { \
     if (((I) < 2) || ((I) > ((V)->AllocationSupport.NumberOfClusters + 1))) { \
-        FatRaiseStatus(IC,STATUS_FILE_CORRUPT_ERROR);                         \
-    }                                                                         \
+        FatRaiseStatus(IC,STATUS_FILE_CORRUPT_ERROR); \
+    } \
 }
 
 /* 
@@ -583,18 +565,18 @@ typedef DIRENT* PDIRENT;
  *     );
  */
 
-#define FatGetLboFromIndex(VCB,FAT_INDEX) (                                       \
-    ( (LBO)                                                                       \
-        (VCB)->AllocationSupport.FileAreaLbo +                                    \
+#define FatGetLboFromIndex(VCB,FAT_INDEX) ( \
+    ( (LBO) \
+        (VCB)->AllocationSupport.FileAreaLbo + \
         (((LBO)((FAT_INDEX) - 2)) << (VCB)->AllocationSupport.LogOfBytesPerCluster) \
-    )                                                                             \
+    ) \
 )
 
-#define FatGetIndexFromLbo(VCB,LBO) (                      \
-    (ULONG) (                                              \
+#define FatGetIndexFromLbo(VCB,LBO) ( \
+    (ULONG) ( \
         (((LBO) - (VCB)->AllocationSupport.FileAreaLbo) >> \
         (VCB)->AllocationSupport.LogOfBytesPerCluster) + 2 \
-    )                                                      \
+    ) \
 )
 
 /* 
@@ -608,12 +590,10 @@ typedef DIRENT* PDIRENT;
  *     );
  */
 
-#define FatLookup12BitEntry(FAT,INDEX,ENTRY) {                              \
-                                                                            \
-    CopyUchar2((PUCHAR)(ENTRY), (PUCHAR)(FAT) + (INDEX) * 3 / 2);           \
-                                                                            \
-    *ENTRY = (FAT_ENTRY)(0xfff & (((INDEX) & 1) ? (*(ENTRY) >> 4) :         \
-                                                   *(ENTRY)));              \
+#define FatLookup12BitEntry(FAT,INDEX,ENTRY) { \
+    CopyUchar2((PUCHAR)(ENTRY), (PUCHAR)(FAT) + (INDEX) * 3 / 2); \
+    *ENTRY = (FAT_ENTRY)(0xfff & (((INDEX) & 1) ? (*(ENTRY) >> 4) : \
+                                                   *(ENTRY))); \
 }
 
 /* 
@@ -627,16 +607,12 @@ typedef DIRENT* PDIRENT;
  *     );
  */
 
-#define FatSet12BitEntry(FAT,INDEX,ENTRY) {                            \
-                                                                       \
-    FAT_ENTRY TmpFatEntry;                                             \
-                                                                       \
+#define FatSet12BitEntry(FAT,INDEX,ENTRY) { \
+    FAT_ENTRY TmpFatEntry; \
     CopyUchar2((PUCHAR)&TmpFatEntry, (PUCHAR)(FAT) + (INDEX) * 3 / 2); \
-                                                                       \
-    TmpFatEntry = (FAT_ENTRY)                                          \
-                (((INDEX) & 1) ? ((ENTRY) << 4) | (TmpFatEntry & 0xf)  \
-                               : (ENTRY) | (TmpFatEntry & 0xf000));    \
-                                                                       \
+    TmpFatEntry = (FAT_ENTRY) \
+                (((INDEX) & 1) ? ((ENTRY) << 4) | (TmpFatEntry & 0xf) \
+                               : (ENTRY) | (TmpFatEntry & 0xf000)); \
     *((UNALIGNED UCHAR2 *)((PUCHAR)(FAT) + (INDEX) * 3 / 2)) = *((UNALIGNED UCHAR2 *)(&TmpFatEntry)); \
 }
 
@@ -644,13 +620,13 @@ typedef DIRENT* PDIRENT;
  * The following macro compares two FAT_TIME_STAMPs
  */
 
-#define FatAreTimesEqual(TIME1,TIME2) (                     \
+#define FatAreTimesEqual(TIME1,TIME2) ( \
     RtlEqualMemory((TIME1),(TIME2), sizeof(FAT_TIME_STAMP)) \
 )
 
 
-#define EA_FILE_SIGNATURE                (0x4445) // "ED"
-#define EA_SET_SIGNATURE                 (0x4145) // "EA"
+#define EA_FILE_SIGNATURE (0x4445) // "ED"
+#define EA_SET_SIGNATURE (0x4145) // "EA"
 
 /* 
  * If the volume contains any ea data then there is one EA file called
@@ -659,20 +635,20 @@ typedef DIRENT* PDIRENT;
  */
 
 typedef struct _EA_FILE_HEADER {
-    USHORT Signature;           // offset = 0
-    USHORT FormatType;          // offset = 2
-    USHORT LogType;             // offset = 4
-    USHORT Cluster1;            // offset = 6
-    USHORT NewCValue1;          // offset = 8
-    USHORT Cluster2;            // offset = 10
-    USHORT NewCValue2;          // offset = 12
-    USHORT Cluster3;            // offset = 14
-    USHORT NewCValue3;          // offset = 16
-    USHORT Handle;              // offset = 18
-    USHORT NewHOffset;          // offset = 20
-    UCHAR  Reserved[10];        // offset = 22
-    USHORT EaBaseTable[240];    // offset = 32
-} EA_FILE_HEADER;               // sizeof = 512
+    USHORT Signature; // offset = 0
+    USHORT FormatType; // offset = 2
+    USHORT LogType; // offset = 4
+    USHORT Cluster1; // offset = 6
+    USHORT NewCValue1; // offset = 8
+    USHORT Cluster2; // offset = 10
+    USHORT NewCValue2; // offset = 12
+    USHORT Cluster3; // offset = 14
+    USHORT NewCValue3; // offset = 16
+    USHORT Handle; // offset = 18
+    USHORT NewHOffset; // offset = 20
+    UCHAR  Reserved[10]; // offset = 22
+    USHORT EaBaseTable[240]; // offset = 32
+} EA_FILE_HEADER; // sizeof = 512
 
 typedef EA_FILE_HEADER* PEA_FILE_HEADER;
 
@@ -688,26 +664,26 @@ typedef EA_OFF_TABLE* PEA_OFF_TABLE;
  */
 
 typedef struct _EA_SET_HEADER {
-    USHORT Signature;           // offset = 0
-    USHORT OwnEaHandle;         // offset = 2
-    ULONG32  NeedEaCount;         // offset = 4
-    UCHAR  OwnerFileName[14];   // offset = 8
-    UCHAR  Reserved[4];         // offset = 22
-    UCHAR  cbList[4];           // offset = 26
-    UCHAR  PackedEas[1];        // offset = 30
-} EA_SET_HEADER;                // sizeof = 30
+    USHORT Signature; // offset = 0
+    USHORT OwnEaHandle; // offset = 2
+    ULONG32  NeedEaCount; // offset = 4
+    UCHAR  OwnerFileName[14]; // offset = 8
+    UCHAR  Reserved[4]; // offset = 22
+    UCHAR  cbList[4]; // offset = 26
+    UCHAR  PackedEas[1]; // offset = 30
+} EA_SET_HEADER; // sizeof = 30
 typedef EA_SET_HEADER* PEA_SET_HEADER;
 
-#define SIZE_OF_EA_SET_HEADER       30
+#define SIZE_OF_EA_SET_HEADER 30
 
-#define MAXIMUM_EA_SIZE             0x0000ffff
+#define MAXIMUM_EA_SIZE 0x0000ffff
 
 #define GetcbList(EASET) (((EASET)->cbList[0] <<  0) + \
                           ((EASET)->cbList[1] <<  8) + \
                           ((EASET)->cbList[2] << 16) + \
                           ((EASET)->cbList[3] << 24))
 
-#define SetcbList(EASET,CB) {                \
+#define SetcbList(EASET,CB) { \
     (EASET)->cbList[0] = (CB >>  0) & 0x0ff; \
     (EASET)->cbList[1] = (CB >>  8) & 0x0ff; \
     (EASET)->cbList[2] = (CB >> 16) & 0x0ff; \
@@ -722,7 +698,7 @@ typedef struct _PACKED_EA {
     UCHAR Flags;
     UCHAR EaNameLength;
     UCHAR EaValueLength[2];
-    CHAR  EaName[1];
+    CHAR EaName[1];
 } PACKED_EA;
 typedef PACKED_EA* PPACKED_EA;
 
@@ -743,12 +719,12 @@ typedef PACKED_EA* PPACKED_EA;
  *         );
  */
 
-#define GetEaValueLength(EA,LEN) {               \
-    *(LEN) = 0;                                  \
-    CopyUchar2( (LEN), (EA)->EaValueLength );    \
+#define GetEaValueLength(EA,LEN) { \
+    *(LEN) = 0; \
+    CopyUchar2( (LEN), (EA)->EaValueLength ); \
 }
 
-#define SetEaValueLength(EA,LEN) {               \
+#define SetEaValueLength(EA,LEN) { \
     CopyUchar2( &((EA)->EaValueLength), (LEN) ); \
 }
 
@@ -762,38 +738,38 @@ typedef PACKED_EA* PPACKED_EA;
  *         );
  */
 
-#define SizeOfPackedEa(EA,SIZE) {          \
-    ULONG _NL,_DL; _NL = 0; _DL = 0;       \
+#define SizeOfPackedEa(EA,SIZE) { \
+    ULONG _NL,_DL; _NL = 0; _DL = 0; \
     CopyUchar1(&_NL, &(EA)->EaNameLength); \
-    GetEaValueLength(EA, &_DL);            \
-    *(SIZE) = 1 + 1 + 2 + _NL + 1 + _DL;   \
+    GetEaValueLength(EA, &_DL); \
+    *(SIZE) = 1 + 1 + 2 + _NL + 1 + _DL; \
 }
 
-#define EA_NEED_EA_FLAG                 0x80
-#define MIN_EA_HANDLE                   1
-#define MAX_EA_HANDLE                   30719
-#define UNUSED_EA_HANDLE                0xffff
-#define EA_CBLIST_OFFSET                0x1a
-#define MAX_EA_BASE_INDEX               240
-#define MAX_EA_OFFSET_INDEX             128
+#define EA_NEED_EA_FLAG 0x80
+#define MIN_EA_HANDLE 1
+#define MAX_EA_HANDLE 30719
+#define UNUSED_EA_HANDLE 0xffff
+#define EA_CBLIST_OFFSET 0x1a
+#define MAX_EA_BASE_INDEX 240
+#define MAX_EA_OFFSET_INDEX 128
 
 /* 
  * For Fat large file name
  */
 typedef struct _PACKED_LFN_DIRENT {
-    UCHAR     Ordinal;    //  offset =  0
-    UCHAR     Name1[10];  //  offset =  1 (Really 5 chars, but not WCHAR aligned)
-    UCHAR     Attributes; //  offset = 11
-    UCHAR     Type;       //  offset = 12
-    UCHAR     Checksum;   //  offset = 13
-    WCHAR     Name2[6];   //  offset = 14
-    USHORT    MustBeZero; //  offset = 26
-    WCHAR     Name3[2];   //  offset = 28
-} PACKED_LFN_DIRENT;      //  sizeof = 32
+    UCHAR Ordinal; //  offset =  0
+    UCHAR Name1[10]; //  offset =  1 (Really 5 chars, but not WCHAR aligned)
+    UCHAR Attributes; //  offset = 11
+    UCHAR Type; //  offset = 12
+    UCHAR Checksum; //  offset = 13
+    WCHAR Name2[6]; //  offset = 14
+    USHORT MustBeZero; //  offset = 26
+    WCHAR Name3[2]; //  offset = 28
+} PACKED_LFN_DIRENT; //  sizeof = 32
 typedef PACKED_LFN_DIRENT* PPACKED_LFN_DIRENT;
 
-#define FAT_LAST_LONG_ENTRY             0x40 // Ordinal field
-#define FAT_LONG_NAME_COMP              0x0  // Type field
+#define FAT_LAST_LONG_ENTRY 0x40 // Ordinal field
+#define FAT_LONG_NAME_COMP 0x0 // Type field
 
 /* 
  * A packed lfn dirent is already quadword aligned so simply declare a
@@ -807,79 +783,8 @@ typedef LFN_DIRENT* PLFN_DIRENT;
  * This is the largest size buffer we would ever need to read an Lfn
  */
 
-#define MAX_LFN_CHARACTERS              260
-#define MAX_LFN_DIRENTS                 20
+#define MAX_LFN_CHARACTERS 260
+#define MAX_LFN_DIRENTS 20
 
 #define FAT_LFN_DIRENTS_NEEDED(NAME) (((NAME)->Length/sizeof(WCHAR) + 12)/13)
-
-/* 
- * Implementation of exfat
- * https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification
- */
-
-#define EXFAT_MAIN_BOOT_SECTOR 0
-#define EXFAT_BACKUP_BOOT_REGION_SECTOR 12
-
-#define EXFAT_FIRST_CLUSTER 2
-#define EXFAT_BAD_BLOCK 0xFFFFFFF7u
-#define EXFAT_END_CLUSTER 0xFFFFFFFFFu
-
-/* 
- * Exfat boot sector part.
- */
-typedef struct _EXFAT_BOOT_SECTOR {
-    UCHAR JumpBoot[3];								// offset = 0x000  3
-    UCHAR FileSystemName[8];						// offset = 0x003  8
-    UCHAR MustBeZero[53];							// offset = 0x00B  53
-    UCHAR PartitionOffset[8];						// offset = 0x05E  8
-    UCHAR VolumeLength[8];							// offset = 0x066  8
-    UCHAR FatOffset[4];								// offset = 0x06E  4
-    UCHAR FatLength[4];								// offset = 0x072  4
-    UCHAR ClusterHeapOffset[4];						// offset = 0x076  4
-    UCHAR ClusterCount[4];							// offset = 0x07A  4
-    UCHAR FirstClusterOfRootDirectory[4];			// offset = 0x07E  4
-    UCHAR VolumeSerialNumber[4];					// offset = 0x082  4
-    UCHAR FileSystemRevision[2];					// offset = 0x086  2
-    UCHAR VolumeFlags[2];							// offset = 0x088  2
-    UCHAR BytesPerSectorShift[1];					// offset = 0x09A  1
-    UCHAR SectorsPerClusterShift[1];				// offset = 0x09B  1
-    UCHAR NumberOfFats[1];							// offset = 0x09C  1
-    UCHAR DriveSelect[1];							// offset = 0x09D  1
-    UCHAR PercentInUse[1];							// offset = 0x09E  1
-    UCHAR Reserved[7];								// offset = 0x09F  7
-    UCHAR BootCode[390];							// offset = 0x0A6  390
-    UCHAR BootSignature[2];							// offset = 0x436  2
-} EXFAT_BOOT_SECTOR;
-
-/* 
- * Exfat directory entry structure.
- */
-typedef struct _EXFAT_DIRECTORY_ENTRY {
-	UCHAR EntryType[1];								// offset = 0x000  1
-	union {
-		UCHAR CustomDefined[19];					// offset = 0x001  19	
-		struct EXFAT_PRIMARY_DIRECTORY_ENTRY {
-			UCHAR SecondaryCount[1];
-			UCHAR SetChecksum[2];
-			UCHAR GeneralPrimaryFlags[2];
-			UCHAR CustomDefined[14];
-		} ExfatPrimaryTemplate;
-		struct EXFAT_SECONDARY_DIRECTORY_ENTRY {
-			UCHAR GeneralSecondaryFlags[1];
-			UCHAR CustomDefined[18];
-		} ExfatSecondaryTemplate;
-	} DirectoryEntry;
-	UCHAR FirstCluster[4];							// offset = 0x014  4
-	UCHAR DataLength[8];							// offset = 0x018  8
-} EXFAT_DIRECTORY_ENTRY;
-
-/* 
- * Exfat directory entry labal.
- */
-typedef struct _EXFAT_DIRECTORY_ENTRY_LABEL {
-	UCHAR EntryType[1];								// offset = 0x000  1
-	UCHAR CharacterCount[1];						// offset = 0x001  1
-	UCHAR VolumeLabel[22];							// offset = 0x002  22
-	UCHAR Reserved[8];								// offset = 0x018  8
-} EXFAT_DIRECTORY_ENTRY_LABEL ;
 
