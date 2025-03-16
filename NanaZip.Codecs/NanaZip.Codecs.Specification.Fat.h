@@ -409,7 +409,11 @@ typedef struct _PACKED_EA {
 #define MAX_EA_BASE_INDEX 240
 #define MAX_EA_OFFSET_INDEX 128
 
-// Start implement EXFAT
+/*
+ * Start implementing exfat
+ * Reference:
+ * https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification
+ */
 
 /**
  * @brief  
@@ -436,21 +440,146 @@ typedef struct _EXFAT_MAIN_BOOT_SECTOR {
 	UINT8 Reserved[7];
 	UINT8 BootCode[390];
 	UINT8 BootSignature[2];
-} EXFAT_MAIN_BOOT_SECTOR;
+} EXFAT_MAIN_BOOT_SECTOR, *PEXFAT_MAIN_BOOT_SECTOR;
 
-#define EXFAT_VOLUME_FLAGS_ACTIVE_FAT 0x01
-#define EXFAT_VOLUME_FLAGS_VOLUME_DIRTY 0x02
-#define EXFAT_VOLUME_FLAGS_MEDIA_FAILURE 0x04
-#define EXFAT_VOLUME_FLAGS_CLEAR_TO_ZERO 0x08
+#define ACTIVE_FAT 0x01
+#define VOLUME_DIRTY 0x02
+#define MEDIA_FAILURE 0x04
+#define CLEAR_TO_ZERO 0x08
 
-typedef struct _EXFAT_DIRENT {
+typedef struct _EXFAT_GENERIC_DIRENT {
+	/**
+     * EntryType.
+	 * +-------------------------------------------------+
+     * | 00h          | 01h - 7Fh     | 81h - FFh         |
+     * +-------------------------------------------------+
+     * | End-of-Dir   | Unused Entry  | Regular Entry     |
+     * | Marker       | Marker        | (File, Directory, |
+     * |              |               |  Volume Label....)|
+     * +-------------------------------------------------+
+	 */
 	UINT8 EntryType;
-	union {
-		
-	} Union;
-} EXFAT_DIRENT;
+    UINT8 CustomDefined[19];
+    UINT8 FirstCluster[4];
+    UINT8 DataLength[8];
+} EXFAT_GENERIC_DIRENT, *PEXFAT_GENERIC_DIRENT;
+
+typedef struct _EXFAT_PRIMARY_DIRENT {
+    UINT8 EntryType;
+    UINT8 SecondaryCount;
+    UINT8 SetChecksum[2];
+    UINT8 GeneralPrimaryFlags[2];
+    UINT8 CustomDefined[14];
+    UINT8 FirstCluster[4];
+    UINT8 DataLength[8];
+} EXFAT_PRIMARY_DIRENT, *PEXFAT_GENERIC_DIRENT;
+
+typedef struct _EXFAT_SECONDARY_DIRENT {
+    UINT8 EntryType;
+    UINT8 GeneralSecondaryFlags;
+    UINT8 CustomDefined[18];
+    UINT8 FirstCluster[4];
+    UINT8 DataLength[8];
+} EXFAT_SECONDARY_DIRENT, *PEXFAT_SECONDARY_DIRENT;
+
+// Save for `Flags` field.
+#define ALLOCATION_POSSIBLE 0x01
+#define NO_FAT_CHAIN 0x02
+
+typedef struct _EXFAT_ALLOCATION_BITMAP_DIRENT {
+    UINT8 EntryType;
+    UINT8 BitmapFlags;
+    UINT8 CustomDefined[18];
+    UINT8 FirstCluster[4];
+    UINT8 DataLength[8];
+} EXFAT_ALLOCATION_BITMAP_DIRENT, *PEXFAT_ALLOCATION_BITMAP_DIRENT;
+#define BITMAP_DENTIFIER 0x01
+
+typedef struct _EXFAT_UP_DIRENT {
+    UINT8 EntryType;
+    UINT8 Reserved1[3];
+    UINT8 TableChecksum[4];
+    UINT8 Reserved2[12];
+    UINT8 FirstCluster[4];
+    UINT8 DataLength[8];
+} EXFAT_UP_DIRENT, *PEXFAT_UP_DIRENT;
+
+typedef struct _EXFAT_VOLUME_LABEL_DIRENT {
+    UINT8 EntryType;
+    UINT8 CharacterCount;
+    UINT8 VolumeLabel[22];
+    UINT8 DataLength[8];
+} EXFAT_VOLUME_LABEL_DIRENT, *PEXFAT_VOLUME_LABEL_DIRENT;
+
+typedef struct _EXFAT_FILE_DIRENT {
+    UINT8 EntryType;
+    UINT8 SecondaryCount;
+    UINT8 SetChecksum[2];
+    UINT8 FileAttributes[2];
+    UINT8 Reserved1[2];
+    UINT8 CreateTimestamp[4];
+    UINT8 LastModifiedTimestamp[4];
+    UINT8 LastAccessedTimestamp[4];
+    UINT8 Create10msIncrement;
+    UINT8 LastModified10msIncrement;
+    UINT8 CreateUtcOffset;
+    UINT8 LastModifiedUtcOffset;
+    UINT8 LastAccessedUtcOffset;
+    UINT8 Reserved2[7];
+} EXFAT_FILE_DIRENT, *PEXFAT_FILE_DIRENT;
 
 
+#define EXFAT_DIRENT_FILE_ATTR_READ_ONLY FAT_DIRENT_ATTR_READ_ONLY
+#define EXFAT_DIRENT_FILE_ATTR_HIDDEN FAT_DIRENT_ATTR_HIDDEN
+#define EXFAT_DIRENT_FILE_ATTR_SYSTEM FAT_DIRENT_ATTR_SYSTEM
+#define EXFAT_DIRENT_FILE_ATTR_RESERVED1 0x08
+#define EXFAT_DIRENT_FILE_ATTR_DIRECTORY FAT_DIRENT_ATTR_DIRECTORY
+#define EXFAT_DIRENT_FILE_ATTR_ARCHIVE FAT_DIRENT_ATTR_ARCHIVE
 
+#define UTC_OFFSET_VALID 0x80
+
+typedef struct _EXFAT_VOLUME_GUID_DIRENT {
+    UINT8 EntryType;
+    UINT8 SecondaryCount;
+    UINT8 SetChecksum[2];
+    UINT8 GeneralPrimaryFlags[2];
+    UINT8 VolumeGuid[16];
+    UINT8 Reserved[10];
+} EXFAT_VOLUME_GUID_DIRENT, *PEXFAT_VOLUME_GUID_DIRENT;
+
+typedef struct _EXFAT_STREAM_DIRENT {
+    UINT8 EntryType;
+    UINT8 GeneralSecondaryFlags;
+    UINT8 Reserved1;
+    UINT8 NameLength;
+    UINT8 NameHash[2];
+    UINT8 Reserved2[2];
+    UINT8 ValidDataLength[8];
+    UINT8 Reserved3[4];
+    UINT8 FirstCluster[4];
+    UINT8 DataLength[8];
+} EXFAT_STREAM_DIRENT, *PEXFAT_STREAM_DIRENT;
+
+typedef struct _EXFAT_FILE_NAME_DIRENT {
+    UINT8 EntryType;
+    UINT8 GeneralSecondaryFlags;
+    UINT8 FileName[30];
+} EXFAT_FILE_NAME_DIRENT, *PEXFAT_FILE_NAME_DIRENT;
+
+typedef struct _EXFAT_VENDOR_EXTENSION_DIRENT {
+    UINT8 EntryType;
+    UINT8 GeneralSecondaryFlags;
+    UINT8 VendorGuid[16];
+    UINT8 VendorDefined[14];
+} EXFAT_VENDOR_EXTENSION_DIRENT, *PEXFAT_VENDOR_EXTENSION_DIRENT;
+
+typedef struct _EXFAT_VENDOR_ALLOCATION_DIRENT {
+    UINT8 EntryType;
+    UINT8 GeneralSecondaryFlags;
+    UINT8 VendorGuid[16];
+    UINT8 VendorDefined[2];
+    UINT8 FirstCluster[4];
+    UINT8 DataLength[8];
+} EXFAT_VENDOR_ALLOCATION_DIRENT, *PEXFAT_VENDOR_ALLOCATION_DIRENT;
 
 #endif // !NANAZIP_CODECS_SPECIFICATION_FAT
