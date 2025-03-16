@@ -409,4 +409,48 @@ typedef struct _PACKED_EA {
 #define MAX_EA_BASE_INDEX 240
 #define MAX_EA_OFFSET_INDEX 128
 
+// Start implement EXFAT
+
+/**
+ * @brief  
+ */
+typedef struct _EXFAT_MAIN_BOOT_SECTOR {
+	UINT8 JumpBoot[3];
+	UINT8 FileSystemName[8];
+	UINT8 MustBeZero[53];
+	UINT8 PartitionOffset[8];
+	UINT8 VolumeLength[8];
+	UINT8 FatOffset[4];
+	UINT8 FatLength[4];
+	UINT8 ClusterHeapOffset[4];
+	UINT8 ClusterCount[4];
+	UINT8 FirstClusterOfRootDirectory[4];
+	UINT8 VolumeSerialNumber[4];
+	UINT8 FileSystemRevision[2];
+	UINT8 VolumeFlags[2];
+	UINT8 BytesPerSectorShift;
+	UINT8 SectorsPerClusterShift;
+	UINT8 NumberOfFats;
+	UINT8 DriveSelect;
+	UINT8 PercentInUse;
+	UINT8 Reserved[7];
+	UINT8 BootCode[390];
+	UINT8 BootSignature[2];
+} EXFAT_MAIN_BOOT_SECTOR;
+
+#define EXFAT_VOLUME_FLAGS_ACTIVE_FAT 0x01
+#define EXFAT_VOLUME_FLAGS_VOLUME_DIRTY 0x02
+#define EXFAT_VOLUME_FLAGS_MEDIA_FAILURE 0x04
+#define EXFAT_VOLUME_FLAGS_CLEAR_TO_ZERO 0x08
+
+typedef struct _EXFAT_DIRENT {
+	UINT8 EntryType;
+	union {
+		
+	} Union;
+} EXFAT_DIRENT;
+
+
+
+
 #endif // !NANAZIP_CODECS_SPECIFICATION_FAT
