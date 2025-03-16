@@ -5,7 +5,8 @@
  *
  * LICENSE:   The MIT License
  *
- * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com), pericycle(me@per1cycle.org)
+ * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
+ *             pericycle(me@per1cycle.org)
  */
 
 // References
